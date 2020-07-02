@@ -7,7 +7,6 @@
 #include <freetype/fttrigon.h>
 #include FT_FREETYPE_H
 #include <GL/gl.h>
-#include <GL/glu.h>
 
 #include <iostream>
 #include <string>
@@ -187,7 +186,7 @@ namespace glfreetype {
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        gluOrtho2D(viewport[0],viewport[2],viewport[1],viewport[3]);
+        glOrtho(viewport[0],viewport[2],viewport[1],viewport[3],-1,1);
         glPopAttrib();
     }
      
