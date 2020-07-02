@@ -2,6 +2,7 @@
 
 #include "glfreetype/TextRenderer.hpp"
 #include <GLFW/glfw3.h>
+#include <GL/gl.h>
 
 int main(int argc, char **argv)
 {

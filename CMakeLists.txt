@@ -9,13 +9,12 @@ find_package(Freetype REQUIRED)
 # note, when you do this in your own project, the src and include paths
 # would likely be glfreetype/src/*.cpp and 
 # glfreetype/include/glfreetpye/*.hpp respectively.
-file(GLOB_RECURSE glfreetype src/*.cpp include/glfreetype/*.hpp)
+file(GLOB_RECURSE glfreetype src/ include/glfreetype/ *.hpp *.cpp)
 
 # ensure headers in the src folder are compiler-found
 # Note, in your own project the following include path 
 # would likely be glfreetype/include
 include_directories(include)
-include_directories(/usr/local/include/)
 include_directories( ${OPENGL_INCLUDE_DIRS} )
 include_directories( ${FREETYPE_INCLUDE_DIRS} )
 
@@ -25,6 +24,6 @@ add_executable(wintest test/main.cpp)
 target_link_libraries(wintest glfreetype_lib ${OPENGL_LIBRARIES} glfw ${FREETYPE_LIBRARIES})
 
 # compile options. Lots of redundancy here. Can prob clean up.
-set(COMP_FLAGS -std=c++14 -O3 -ffast-math -funroll-loops -Wno-ctor-dtor-privacy -fno-pic -Wno-deprecated)
+set(COMP_FLAGS -std=c++14 -O3 -ffast-math -funroll-loops)
 target_compile_options(glfreetype_lib PUBLIC ${COMP_FLAGS})
 target_compile_options(wintest PUBLIC ${COMP_FLAGS})

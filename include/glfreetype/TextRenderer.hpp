@@ -1,5 +1,5 @@
 #pragma once
-#include <OpenGL/gl.h>
+#include <GL/gl.h>
 #include <string>
 #include <vector>
 namespace glfreetype {
