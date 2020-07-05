@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.1)
 project (glfreetype)
 
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 find_package(Freetype REQUIRED)
 
