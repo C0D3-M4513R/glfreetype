@@ -125,6 +125,7 @@ namespace glfreetype {
     }
 
     void font_data::init(const char * fname, unsigned int h) {
+        hasInit=true;
 
         // Allocate Some Memory To Store The Texture Ids.
         textures.resize(128);
@@ -172,8 +173,11 @@ namespace glfreetype {
     }
 
     void font_data::clean() {
-        glDeleteLists(list_base,128);
-        glDeleteTextures(128, &textures.front());
+        if(this!=nullptr&&hasInit){
+            hasInit=false;
+            glDeleteLists(list_base,128);
+            glDeleteTextures(128, &textures.front());
+        }
     }
 
     // A Fairly Straightforward Function That Pushes

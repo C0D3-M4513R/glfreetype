@@ -12,6 +12,7 @@ namespace glfreetype {
         float h;                      // Holds The Height Of The Font.
         std::vector<GLuint> textures; // Holds The Texture Id's
         GLuint list_base;             // Holds The First Display List Id
+        bool hasInit=false;
 
         // The Init Function Will Create A Font With
         // The Height h From The File fname.
