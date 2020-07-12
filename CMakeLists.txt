@@ -1,6 +1,10 @@
 cmake_minimum_required (VERSION 3.1)
 project (glfreetype)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 find_package(Freetype REQUIRED)
@@ -22,9 +26,10 @@ include_directories( ${FREETYPE_INCLUDE_DIRS} )
 add_library(glfreetype ${glfreetype})
 target_link_libraries(glfreetype ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARIES})
 
-# compile options. Lots of redundancy here. Can prob clean up.
-set(COMP_FLAGS -std=c++14 -O3 -ffast-math -funroll-loops)
-target_compile_options(glfreetype PUBLIC ${COMP_FLAGS})
+set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -ffast-math -funroll-loops")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og -g3 -frecord-gcc-switches -Wall -Wextra -D_GLIBCXX_DEBUG")
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     add_executable(wintest test/main.cpp)
@@ -34,5 +39,4 @@ if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     target_link_libraries(wintest Threads::Threads)
 
     target_link_libraries(wintest glfreetype ${OPENGL_LIBRARIES} glfw3 ${CMAKE_DL_LIBS})
-    target_compile_options(wintest PUBLIC ${COMP_FLAGS})
 endif()
