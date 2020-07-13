@@ -6,7 +6,11 @@
 #include <freetype/ftoutln.h>
 #include <freetype/fttrigon.h>
 #include FT_FREETYPE_H
+#if defined(__APPLE__)
+#include <OpenGL/gl.h>
+#else//__APPLE__
 #include <GL/gl.h>
+#endif//__APPLE__
 
 #include <iostream>
 #include <string>
