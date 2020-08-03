@@ -23,9 +23,9 @@
 namespace glfreetype {
     // Gets the first power of 2 >= 
     // for the given int  
-    inline int next_p2 (int a )
+    inline unsigned int next_p2 (unsigned int a )
     {
-        int rval=1;
+        unsigned int rval=1;
         // rval<<=1 Is A Prettier Way Of Writing rval*=2;
         while(rval<a) rval<<=1;
         return rval;
@@ -47,15 +47,15 @@ namespace glfreetype {
         return (FT_BitmapGlyph)glyph;
     }
 
-    void storeTextureData(int const width, 
-                          int const height,
+    void storeTextureData(unsigned int const width,
+                          unsigned int const height,
                           FT_Bitmap & bitmap,
                           std::vector<GLubyte> & expanded_data)
     {
         // Note: two channel bitmap (One for
         // channel luminosity and one for alpha).
-        for(int j = 0; j < height ; j++) {
-            for(int i = 0; i < width; i++) {
+        for(unsigned int j = 0; j < height ; j++) {
+            for(unsigned int i = 0; i < width; i++) {
                 expanded_data[2 * (i + j * width)] = 255; // luminosity
                 expanded_data[2 * (i + j * width) + 1] =
                 (i >= bitmap.width || j >= bitmap.rows) ? 0 :
@@ -65,7 +65,7 @@ namespace glfreetype {
     }
 
     // Create A Display List Corresponding To The Given Character.
-    void make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base ) {
+    void make_dlist ( FT_Face face, unsigned char ch, GLuint list_base, GLuint * tex_base ) {
      
         // Retrieve a bitmap for the given char glyph.
         FT_BitmapGlyph bitmap_glyph = generateBitmapForFace(face, ch);
@@ -74,8 +74,8 @@ namespace glfreetype {
         FT_Bitmap& bitmap=bitmap_glyph->bitmap;
 
         // Get correct dimensions for bitmap
-        int width = next_p2( bitmap.width );
-        int height = next_p2( bitmap.rows ) ;
+        unsigned int width = next_p2( bitmap.width );
+        unsigned int height = next_p2( bitmap.rows ) ;
 
         // Use a vector to store texture data (better than a raw array).
         std::vector<GLubyte> expanded_data(2 * width * height, 0);
@@ -84,7 +84,7 @@ namespace glfreetype {
         storeTextureData(width, height, bitmap, expanded_data);
 
         // Texture parameters.
-        glBindTexture( GL_TEXTURE_2D, tex_base[ch]);
+        glBindTexture( GL_TEXTURE_2D, tex_base[(unsigned int)ch]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -100,7 +100,7 @@ namespace glfreetype {
         // Create the display list
         glNewList(list_base+ch,GL_COMPILE);
      
-        glBindTexture(GL_TEXTURE_2D,tex_base[ch]);
+        glBindTexture(GL_TEXTURE_2D,tex_base[(unsigned int)ch]);
      
         glPushMatrix();
      
@@ -177,7 +177,7 @@ namespace glfreetype {
     }
 
     void font_data::clean() {
-        if(this!=nullptr&&hasInit){
+        if(hasInit){
             hasInit=false;
             glDeleteLists(list_base,128);
             glDeleteTextures(128, &textures.front());
@@ -246,7 +246,7 @@ namespace glfreetype {
         // Down By h. This Is Because When Each Character Is
         // Drawn It Modifies The Current Matrix So That The Next Character
         // Will Be Drawn Immediately After It. 
-        for(int i=0;i<lines.size();i++) {
+        for(unsigned int i=0;i<lines.size();i++) {
             glPushMatrix();
             glLoadIdentity();
             glTranslatef(x,y-h*i,0);

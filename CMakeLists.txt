@@ -29,7 +29,7 @@ target_link_libraries(glfreetype ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARIES})
 set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -ffast-math -funroll-loops")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og -g3 -frecord-gcc-switches -Wall -Wextra -D_GLIBCXX_DEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og -g3 -frecord-gcc-switches -Wall -Wextra")
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     add_executable(wintest test/main.cpp)
